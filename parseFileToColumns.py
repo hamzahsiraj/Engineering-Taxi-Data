@@ -1,4 +1,4 @@
-import csv, ast
+import csv, ast, psycopg2
 
 f= open('pathToCSV.csv', 'r')
 reader = csv.reader(f)
@@ -63,3 +63,20 @@ for i in range(len(headers)):
         statement = (statement + '\n' + '{} {}' + ',').format(headers[i].lower(), type_list[i])
 
 statement = statement[:-1] + ');'
+
+
+connection = psycopg2.connect(
+    host= 'hostname',
+    user = 'username',
+    port = 'port',
+    password = '#####',
+    dbname='dbname'
+)
+cur = connection.cursor()
+cur.execute("begin;")
+
+cur.execute(statement)
+
+cur.execute("commit")
+cur.close()
+connection.close()
