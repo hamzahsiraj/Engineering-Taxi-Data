@@ -53,3 +53,13 @@ for row in reader:
                 longest[i] = len(row[i])
 headers = trimTheName(headers)
 f.close()
+
+#create a table
+statement = 'create table table_name ('
+for i in range(len(headers)):
+    if type_list[i] == 'varchar':
+        statement = (statement + '\n{} varchar({}),').format(headers[i].lower(), str(longest[i]))
+    else:
+        statement = (statement + '\n' + '{} {}' + ',').format(headers[i].lower(), type_list[i])
+
+statement = statement[:-1] + ');'
